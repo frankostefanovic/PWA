@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unos Vijesti ili Proizvoda</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <img src="slike/logo.png" alt="Le Parisien Logo" class="logo">
+            <nav>
+                <ul>
+                    <li><a href="index.php">HOME</a></li>
+                    <li><a href="kategorija.php?kategorija=Paris">Paris</a></li>
+                    <li><a href="kategorija.php?kategorija=Nogomet">Nogomet</a></li>
+                    <li><a href="administrator.php">ADMINISTRACIJA</a></li>
+                    <li><a href="unos.html">UNOS</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <section>
+            <h2>Unos Nove Vijesti</h2>
+            <form id="newsForm" action="skripta.php" method="post" enctype="multipart/form-data">
+                <label for="naslov">Naslov vijesti:</label>
+                <input type="text" id="naslov" name="naslov" required><br>
+                <div id="naslovError" class="error-message"></div>
+                
+                <label for="sazetak">Sažetak vijesti:</label>
+                <textarea id="sazetak" name="sazetak" rows="4" required></textarea><br>
+                <div id="sazetakError" class="error-message"></div>
+                
+                <label for="tekst">Tekst vijesti:</label>
+                <textarea id="tekst" name="tekst" rows="8" required></textarea><br>
+                <div id="tekstError" class="error-message"></div>
+                
+                <label for="kategorija">Kategorija:</label>
+                <select id="kategorija" name="kategorija" required>
+                    <option value="">Odaberite kategoriju</option>
+                    <option value="Paris">Paris</option>
+                    <option value="Nogomet">Nogomet</option>
+                </select><br>
+                <div id="kategorijaError" class="error-message"></div>
+                
+                <label for="slika">Odaberi sliku:</label>
+                <input type="file" id="slika" name="slika" required><br>
+                <div id="slikaError" class="error-message"></div>
+                
+                <label for="arhiva">Arhiviraj:</label>
+                <input type="checkbox" id="arhiva" name="arhiva"><br>
+                
+                <input type="submit" value="Pošalji">
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>Franko Štefanović | fstefanov@tvz.hr</p>
+    </footer>
+
+    <script>
+        document.getElementById('newsForm').addEventListener('submit', function(event) {
+            let valid = true;
+            
+            // Naslov vijesti
+            const naslov = document.getElementById('naslov');
+            const naslovError = document.getElementById('naslovError');
+            if (naslov.value.length < 5 || naslov.value.length > 30) {
+                naslov.classList.add('error');
+                naslovError.textContent = "Naslov mora imati između 5 i 30 znakova.";
+                valid = false;
+            } else {
+                naslov.classList.remove('error');
+                naslovError.textContent = "";
+            }
+
+            // Sažetak vijesti
+            const sazetak = document.getElementById('sazetak');
+            const sazetakError = document.getElementById('sazetakError');
+            if (sazetak.value.length < 10 || sazetak.value.length > 100) {
+                sazetak.classList.add('error');
+                sazetakError.textContent = "Sažetak mora imati između 10 i 100 znakova.";
+                valid = false;
+            } else {
+                sazetak.classList.remove('error');
+                sazetakError.textContent = "";
+            }
+
+            // Tekst vijesti
+            const tekst = document.getElementById('tekst');
+            const tekstError = document.getElementById('tekstError');
+            if (tekst.value.trim() === "") {
+                tekst.classList.add('error');
+                tekstError.textContent = "Tekst vijesti ne smije biti prazan.";
+                valid = false;
+            } else {
+                tekst.classList.remove('error');
+                tekstError.textContent = "";
+            }
+
+            // Kategorija
+            const kategorija = document.getElementById('kategorija');
+            const kategorijaError = document.getElementById('kategorijaError');
+            if (kategorija.value === "") {
+                kategorija.classList.add('error');
+                kategorijaError.textContent = "Morate odabrati kategoriju.";
+                valid = false;
+            } else {
+                kategorija.classList.remove('error');
+                kategorijaError.textContent = "";
+            }
+
+            // Slika
+            const slika = document.getElementById('slika');
+            const slikaError = document.getElementById('slikaError');
+            if (slika.files.length === 0) {
+                slika.classList.add('error');
+                slikaError.textContent = "Morate odabrati sliku.";
+                valid = false;
+            } else {
+                slika.classList.remove('error');
+                slikaError.textContent = "";
+            }
+
+            if (!valid) {
+                event.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
